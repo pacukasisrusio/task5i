@@ -1,0 +1,59 @@
+@page
+@model penkta.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="loginpage">
+    <div class="left-panel">
+        <h1>THE APP</h1>
+        <div class="userui">
+            <span>Start your journey</span>
+            <span>Sign up to the app</span>
+
+            <form method="post" class="userinput">
+                <div>
+                    <input asp-for="Input.Username" type="text" placeholder="Username" class="form-control" />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <input asp-for="Input.Email" type="email" placeholder="Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <input asp-for="Input.Password" type="password" placeholder="Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <input asp-for="Input.ConfirmPassword" type="password" placeholder="Confirm Password" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Sign up</button>
+            </form>
+
+            <div class="text-danger mt-2">
+                @foreach (var error in Model.Errors)
+                {
+                    <div>@error</div>
+                }
+            </div>
+        </div>
+
+        <div class="left-bottom">
+            <div class="signupl">
+                <span>Already have an account?</span>
+                <a asp-page="/Account/Login">Sign in!</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel"></div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
