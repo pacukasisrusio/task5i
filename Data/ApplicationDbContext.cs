@@ -12,16 +12,17 @@ namespace penkta.Data
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+{
+    base.OnModelCreating(builder);
+    
+    builder.Entity<ApplicationUser>()
+        .HasIndex(u => u.Email)
+        .IsUnique();
 
-            builder.Entity<ApplicationUser>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+    builder.Entity<ApplicationUser>()
+        .HasIndex(u => u.UserName)
+        .IsUnique();
+}
 
-            builder.Entity<ApplicationUser>()
-                .HasIndex(u => u.UserName)
-                .IsUnique();
-        }
     }
 }

@@ -19,9 +19,9 @@ namespace penkta.Pages.Account
         }
 
         [BindProperty]
-        public RegisterInput Input { get; set; } = new RegisterInput();
+        public RegisterInput Input { get; set; } = new();
 
-        public List<string> Errors { get; set; } = new List<string>();
+        public List<string> Errors { get; set; } = new();
 
         public void OnGet() { }
 
@@ -30,15 +30,13 @@ namespace penkta.Pages.Account
             if (!ModelState.IsValid)
                 return Page();
 
-            var existingEmail = await _userManager.FindByEmailAsync(Input.Email);
-            if (existingEmail != null)
+            if (await _userManager.FindByEmailAsync(Input.Email) != null)
             {
                 Errors.Add("Email is already registered.");
                 return Page();
             }
 
-            var existingUsername = _userManager.Users.FirstOrDefault(u => u.UserName == Input.Username);
-            if (existingUsername != null)
+            if (_userManager.Users.Any(u => u.UserName == Input.Username))
             {
                 Errors.Add("Username is already taken.");
                 return Page();
@@ -54,15 +52,26 @@ namespace penkta.Pages.Account
 
             if (result.Succeeded)
             {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = Url.Page("/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { userId = user.Id, token },
-                    protocol: Request.Scheme);
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var confirmationLink = Url.Page("/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, token },
+                            protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
-                    $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
+                        await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                            $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Email Error] Failed to send confirmation: {ex.Message}");
+                    }
+                });
 
+                TempData["SuccessMessage"] = "Account created! Please check your email to confirm.";
                 return RedirectToPage("/Account/Login");
             }
 
@@ -77,19 +86,23 @@ namespace penkta.Pages.Account
         public class RegisterInput
         {
             [Required]
+            [Display(Name = "Username")]
             public string Username { get; set; } = "";
 
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; } = "";
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Password")]
             public string Password { get; set; } = "";
 
             [Required]
             [DataType(DataType.Password)]
             [Compare("Password", ErrorMessage = "Passwords do not match.")]
+            [Display(Name = "Confirm Password")]
             public string ConfirmPassword { get; set; } = "";
         }
     }
