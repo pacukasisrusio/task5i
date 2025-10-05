@@ -25,7 +25,7 @@ namespace penkta.Services
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
             using var client = new SmtpClient();
-            await client.ConnectAsync(_config["Email:SmtpHost"], int.Parse(_config["Email:SmtpPort"]), SecureSocketOptions.StartTls);
+            await client.ConnectAsync(_config["Email:SmtpHost"],_config.GetValue<int>("Email:SmtpPort"),SecureSocketOptions.StartTls);
             await client.AuthenticateAsync(_config["Email:SmtpUser"], _config["Email:SmtpPass"]);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
