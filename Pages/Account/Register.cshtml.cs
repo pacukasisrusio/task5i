@@ -74,6 +74,7 @@ namespace penkta.Pages.Account
                 TempData["SuccessMessage"] = "Account created! Please check your email to confirm.";
                 return RedirectToPage("/Account/Login");
             }
+            //if (result.Succeeded) { var token = await _userManager.GenerateEmailConfirmationTokenAsync(user); var confirmationLink = Url.Page("/Account/ConfirmEmail", pageHandler: null, values: new { userId = user.Id, token }, protocol: Request.Scheme); await _emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
 
             foreach (var error in result.Errors)
             {
