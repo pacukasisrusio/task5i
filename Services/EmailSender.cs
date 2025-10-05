@@ -18,7 +18,7 @@ namespace penkta.Services
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
 {
     var client = new SendGridClient(_config["SendGrid:ApiKey"]);
-    var from = new EmailAddress(_config["SendGrid:FromEmail"], _config["SendGrid:FromName"] ?? "Your App Name");
+    var from = new EmailAddress("g6447915@gmail.com", "Your App Name");
     var to = new EmailAddress(email);
     var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
 
