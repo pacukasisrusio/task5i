@@ -326,3 +326,4 @@
 /home/wizardas/imones/penkta/bin/Debug/net9.0/MailKit.dll
 /home/wizardas/imones/penkta/bin/Debug/net9.0/MimeKit.dll
 /home/wizardas/imones/penkta/obj/Debug/net9.0/compressed/x7l3183zej-4s6ne9s9z1.gz
+/home/wizardas/imones/penkta/obj/Debug/net9.0/penkta.sourcelink.json
