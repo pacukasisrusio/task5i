@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("penkta")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+012312358a6df59858f605b8dddf4f22f3a4d4f3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4fbd425b0bdd501a959a25cdb576a76f2110dfae")]
 [assembly: System.Reflection.AssemblyProductAttribute("penkta")]
 [assembly: System.Reflection.AssemblyTitleAttribute("penkta")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
