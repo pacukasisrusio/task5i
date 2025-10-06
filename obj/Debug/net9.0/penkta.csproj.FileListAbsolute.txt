@@ -291,3 +291,6 @@
 /home/wizardas/imones/penkta/obj/Debug/net9.0/compressed/tpsq5dibur-fwhahm2icz.gz
 /home/wizardas/imones/penkta/obj/Debug/net9.0/compressed/t0qo7o574p-dd6z7egasc.gz
 /home/wizardas/imones/penkta/obj/Debug/net9.0/compressed/b9lhb08218-5pze98is44.gz
+/home/wizardas/imones/penkta/bin/Debug/net9.0/Newtonsoft.Json.dll
+/home/wizardas/imones/penkta/bin/Debug/net9.0/SendGrid.dll
+/home/wizardas/imones/penkta/bin/Debug/net9.0/StarkbankEcdsa.dll

@@ -16,17 +16,19 @@ namespace penkta.Services
         }
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
-{
-    var client = new SendGridClient(_config["SendGrid:ApiKey"]);
-    var from = new EmailAddress("g6447915@gmail.com", "Your App Name");
-    var to = new EmailAddress(email);
-    var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
+        {
+            var plainTextMessage = System.Text.RegularExpressions.Regex.Replace(htmlMessage, "<.*?>", string.Empty);
 
-    var response = await client.SendEmailAsync(msg);
-    Console.WriteLine($"SendGrid status: {response.StatusCode}");
-    var body = await response.Body.ReadAsStringAsync();
-    Console.WriteLine($"SendGrid response: {body}");
-}
+            var client = new SendGridClient(_config["SendGrid:ApiKey"]);
+            var from = new EmailAddress("g6447915@gmail.com", "Your App Name");
+            var to = new EmailAddress(email);
 
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextMessage, htmlMessage);
+
+            var response = await client.SendEmailAsync(msg);
+            Console.WriteLine($"SendGrid status: {response.StatusCode}");
+            var body = await response.Body.ReadAsStringAsync();
+            Console.WriteLine($"SendGrid response: {body}");
+        }
     }
 }

@@ -52,29 +52,32 @@ namespace penkta.Pages.Account
 
             if (result.Succeeded)
             {
-                _ = Task.Run(async () =>
+                try
                 {
-                    try
-                    {
-                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var confirmationLink = Url.Page("/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { userId = user.Id, token },
-                            protocol: Request.Scheme);
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, token },
+                        protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"[Email Error] Failed to send confirmation: {ex.Message}");
-                    }
-                });
+                    await _emailSender.SendEmailAsync(
+                        user.Email,
+                        "Confirm your email",
+                        $"<p>Please confirm your account by clicking the link below:</p>" +
+                        $"<p><a href='{confirmationLink}'>Confirm Email</a></p>"
+                    );
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Email Error] Failed to send confirmation: {ex.Message}");
+                    Errors.Add("Failed to send confirmation email. Please try again later.");
+                    return Page();
+                }
 
                 TempData["SuccessMessage"] = "Account created! Please check your email to confirm.";
                 return RedirectToPage("/Account/Login");
             }
-            //if (result.Succeeded) { var token = await _userManager.GenerateEmailConfirmationTokenAsync(user); var confirmationLink = Url.Page("/Account/ConfirmEmail", pageHandler: null, values: new { userId = user.Id, token }, protocol: Request.Scheme); await _emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
 
             foreach (var error in result.Errors)
             {
