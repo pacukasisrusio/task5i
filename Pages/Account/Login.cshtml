@@ -33,7 +33,12 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Login</button>
+
             </form>
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger mt-2">@Model.ErrorMessage</div>
+            }
         </div>
 
         <div class="left-bottom mt-4">
