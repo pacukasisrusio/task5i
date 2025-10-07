@@ -51,6 +51,11 @@ namespace penkta.Pages.Account
                 ErrorMessage = "Invalid login attempt";
                 return Page();
             }
+            if (user.IsBlocked)
+            {
+                ErrorMessage = "User is blocked";
+                return Page();
+            }
             var result = await _signInManager.PasswordSignInAsync(
                 user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
