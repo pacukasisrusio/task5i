@@ -67,24 +67,29 @@ namespace penkta.Pages.Admin
 
             foreach (var id in selectedIds)
             {
-                var user = await _userManager.FindByIdAsync(id);
-                if (user == null) continue;
+                var target = await _userManager.FindByIdAsync(id);
+                if (target == null) continue;
 
-                switch (action)
-                {
-                    case "block":
-                        user.IsBlocked = true;
-                        await _userManager.UpdateAsync(user);
-                        break;
-                    case "unblock":
-                        user.IsBlocked = false;
-                        await _userManager.UpdateAsync(user);
-                        break;
-                    case "delete":
-                        await _userManager.DeleteAsync(user);
-                        break;
-                }
+                var currentUser = await _userManager.GetUserAsync(User);
+
+                if (currentUser.IsBlocked)
+                return RedirectToPage("/Account/Login");
+
+                if (action == "unblock" && target.Id == currentUser.Id)
+                continue;
+
+                if (action == "block")
+                target.IsBlocked = true;
+                else if (action == "unblock")
+                    target.IsBlocked = false;
+                  else if (action == "delete")
+                await _userManager.DeleteAsync(target);
+                else if (action == "deleteunverified" && !target.EmailConfirmed)
+                    await _userManager.DeleteAsync(target);
+
+                await _userManager.UpdateAsync(target);
             }
+
 
             return RedirectToPage();
         }

@@ -26,8 +26,6 @@ namespace penkta.Pages.Account
         public class LoginInput
         {
             [Required]
-            public string Username { get; set; } = "";
-            [Required]
             [EmailAddress]
             public string Email { get; set; } = "";
 
